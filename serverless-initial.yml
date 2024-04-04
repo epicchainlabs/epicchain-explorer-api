@@ -1,0 +1,155 @@
+app: neo3-explorer
+service: neo3-explorer-v1
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+provider:
+  name: aws
+  stage: api
+  runtime: python3.7
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:DescribeTable
+      Resource:
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Blocks"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Blocks/index/height"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Blocks/index/range"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Transactions"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Transactions/index/version-time-index"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/ApplicationLogs"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Addresses"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Transfers"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Transfers/index/to-index"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Assets"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/Contracts"
+        - "Fn::GetAtt": [ AddressesTable, Arn ]
+        - "Fn::GetAtt": [ ApplicationLogsTable, Arn ]
+        - "Fn::GetAtt": [ AssetsTable, Arn ]
+        - "Fn::GetAtt": [ BlocksTable, Arn ]
+        - "Fn::GetAtt": [ ContractsTable, Arn ]
+        - "Fn::GetAtt": [ TransactionsTable, Arn ]
+        - "Fn::GetAtt": [ TransfersTable, Arn ]
+
+functions:
+  get_block:
+    handler: api/get_block.get_block
+    events:
+      - http:
+          path: test_net/v1/get_block/{block_hash}
+          method: get
+          cors: true
+
+  get_blocks:
+    handler: api/get_blocks.get_blocks
+    events:
+      - http:
+          path: test_net/v1/get_blocks/{page}
+          method: get
+          cors: true
+
+  get_height:
+    handler: api/get_height.get_height
+    events:
+      - http:
+          path: test_net/v1/get_height
+          method: get
+          cors: true
+
+  get_transaction:
+    handler: api/get_transaction.get_transaction
+    events:
+      - http:
+          path: test_net/v1/get_transaction/{tx_hash}
+          method: get
+          cors: true
+
+  get_transactions:
+    handler: api/get_transactions.get_transactions
+    events:
+      - http:
+          path: test_net/v1/get_transactions/{last_evaluated_key}
+          method: get
+          cors: true
+
+  get_transaction_count:
+    handler: api/get_transaction_count.get_transaction_count
+    events:
+      - http:
+          path: test_net/v1/get_transaction_count
+          method: get
+          cors: true
+
+  get_log:
+    handler: api/get_log.get_log
+    events:
+      - http:
+          path: test_net/v1/get_log/{tx_hash}
+          method: get
+          cors: true
+
+  get_balance:
+    handler: api/get_balance.get_balance
+    events:
+      - http:
+          path: test_net/v1/get_balance/{address}
+          method: get
+          cors: true
+
+  get_transfer_history:
+    handler: api/get_transfer_history.get_transfer_history
+    events:
+      - http:
+          path: test_net/v1/get_transfer_history/{address}/{page}
+          method: get
+          cors: true
+
+  get_assets:
+    handler: api/get_assets.get_assets
+    events:
+      - http:
+          path: test_net/v1/get_assets/{page}
+          method: get
+          cors: true
+
+  get_contracts:
+    handler: api/get_contracts.get_contracts
+    events:
+      - http:
+          path: test_net/v1/get_contracts/{page}
+          method: get
+          cors: true
+
+  get_contract:
+    handler: api/get_contract.get_contract
+    events:
+      - http:
+          path: test_net/v1/get_contract/{contract_hash}
+          method: get
+          cors: true
+
+  get_asset:
+    handler: api/get_asset.get_asset
+    events:
+      - http:
+          path: test_net/v1/get_asset/{asset_hash}
+          method: get
+          cors: true
+
+  get_stats:
+    handler: api/get_stats.get_stats
+    events:
+      - http:
+          path: test_net/v1/get_stats
+          method: get
+          cors: true
+
+plugins:
+  - serverless-python-requirements
+
+resources:
+ # DynamoDB
+ - ${file(resources/dynamodb-tables.yml)}

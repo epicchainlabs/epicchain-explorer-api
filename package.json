@@ -1,0 +1,13 @@
+{
+  "name": "neo3-explorer-api",
+  "version": "1.0.0",
+  "description": "Serverless REST HTTP interface to Neo3",
+  "author": "Joe Stewart",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-python-requirements": "^5.0.0"
+  },
+  "dependencies": {
+    "serverless-offline": "^5.12.0"
+  }
+}

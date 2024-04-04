@@ -1,0 +1,151 @@
+Resources:
+  AddressesTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: Addresses
+      AttributeDefinitions:
+        - AttributeName: address
+          AttributeType: S
+        - AttributeName: asset
+          AttributeType: S
+      KeySchema:
+        - AttributeName: address
+          KeyType: HASH
+        - AttributeName: asset
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+
+  ApplicationLogsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: ApplicationLogs
+      AttributeDefinitions:
+        - AttributeName: txid
+          AttributeType: S
+      KeySchema:
+        - AttributeName: txid
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  AssetsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: Assets
+      AttributeDefinitions:
+        - AttributeName: scripthash
+          AttributeType: S
+        - AttributeName: firstseen
+          AttributeType: N
+      KeySchema:
+        - AttributeName: scripthash
+          KeyType: HASH
+        - AttributeName: firstseen
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+
+  BlocksTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: Blocks
+      AttributeDefinitions:
+        - AttributeName: hash
+          AttributeType: S
+        - AttributeName: version
+          AttributeType: N
+        - AttributeName: index
+          AttributeType: N
+      KeySchema:
+        - AttributeName: hash
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      GlobalSecondaryIndexes:
+        - IndexName: range
+          KeySchema:
+          - AttributeName: version
+            KeyType: HASH
+          - AttributeName: index
+            KeyType: RANGE
+          Projection:
+            ProjectionType: "ALL"
+        - IndexName: height
+          KeySchema:
+          - AttributeName: index
+            KeyType: HASH
+          Projection:
+            ProjectionType: "ALL"
+
+  ContractsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: Contracts
+      AttributeDefinitions:
+        - AttributeName: hash
+          AttributeType: S
+        - AttributeName: idx
+          AttributeType: N
+      KeySchema:
+        - AttributeName: hash
+          KeyType: HASH
+        - AttributeName: idx
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+
+  TransactionsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: Transactions
+      AttributeDefinitions:
+        - AttributeName: hash
+          AttributeType: S
+        - AttributeName: version
+          AttributeType: N
+        - AttributeName: time
+          AttributeType: N
+      KeySchema:
+        - AttributeName: hash
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      GlobalSecondaryIndexes:
+        - IndexName: version-time-index
+          KeySchema:
+          - AttributeName: version
+            KeyType: HASH
+          - AttributeName: time
+            KeyType: RANGE
+          Projection:
+            ProjectionType: "ALL"
+
+  TransfersTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: Transfers
+      AttributeDefinitions:
+        - AttributeName: from
+          AttributeType: S
+        - AttributeName: transferindex
+          AttributeType: S
+        - AttributeName: to
+          AttributeType: S
+      KeySchema:
+        - AttributeName: from
+          KeyType: HASH
+        - AttributeName: transferindex
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+      GlobalSecondaryIndexes:
+        - IndexName: to-index
+          KeySchema:
+          - AttributeName: to
+            KeyType: HASH
+          - AttributeName: transferindex
+            KeyType: RANGE
+          Projection:
+            ProjectionType: "ALL"
+
