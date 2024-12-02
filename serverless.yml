@@ -1,5 +1,5 @@
-app: neo3-explorer
-service: neo3-explorer-v1
+app: epicchain-explorer-api
+service: epicchain-explorer-api-v1
 
 frameworkVersion: ">=1.1.0 <2.0.0"
 

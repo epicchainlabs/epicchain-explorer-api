@@ -1,5 +1,5 @@
 {
-  "name": "neo3-explorer-api",
+  "name": "epicchain-explorer-api-api",
   "version": "1.0.0",
   "description": "Serverless REST HTTP interface to Neo3",
   "author": "Joe Stewart",
