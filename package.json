@@ -2,7 +2,7 @@
   "name": "epicchain-explorer-api",
   "version": "1.0.0",
   "description": "Serverless REST HTTP interface to EpcChain",
-  "author": "Joe Stewart",
+  "author": "xmoohad",
   "license": "MIT",
   "devDependencies": {
     "serverless-python-requirements": "^5.0.0"
