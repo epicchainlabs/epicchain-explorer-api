@@ -1,5 +1,5 @@
 {
-  "name": "epicchain-explorer-api-api",
+  "name": "epicchain-explorer-api",
   "version": "1.0.0",
   "description": "Serverless REST HTTP interface to EpcChain",
   "author": "Joe Stewart",
