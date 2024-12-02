@@ -1,7 +1,7 @@
 {
   "name": "epicchain-explorer-api-api",
   "version": "1.0.0",
-  "description": "Serverless REST HTTP interface to Neo3",
+  "description": "Serverless REST HTTP interface to EpcChain",
   "author": "Joe Stewart",
   "license": "MIT",
   "devDependencies": {
